@@ -1,0 +1,25 @@
+<div>
+  <form (ngSubmit)="onUserMsgSubmit(userFG)" [formGroup]="userFG">
+    <!-- <div class="row">
+      <div class="col"> -->
+        <mat-form-field class="full-width" appearance="outline" floatLabel="auto">
+          <input  matInput 
+                  placeholder="Input User message"
+                  formControlName="user_message"
+                  required
+          >
+          <mat-label>User message</mat-label>            
+          <mat-error *ngIf="user_message?.hasError('required')">
+            ERROR: User message is required
+          </mat-error>
+          <mat-error *ngIf="user_message?.hasError('minlength')">
+            ERROR: Message must be at least 3 characters long.
+          </mat-error>                     
+        </mat-form-field>
+        <button mat-flat-button color="primary">
+                        User Send
+        </button> 
+      <!-- </div> 
+    </div> -->
+  </form> 
+</div>

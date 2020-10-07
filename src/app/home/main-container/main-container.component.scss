@@ -1,0 +1,57 @@
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+    border: 1px solid black;
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+section.cur-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+
+    width: 40%;
+    background: lightblue;
+    border: 1px solid blue;
+}
+div.cur-user-chat {
+
+    flex: 1 1 auto;
+    // border: 1px solid red;
+}
+// ::ng-deep app-user-chat > mat-drawer-container.user-chat-container  {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     align-content: stretch;
+//     align-items: stretch;
+
+//     background-color: greenyellow;
+//     // flex: 1 1 auto;
+// }
+
+div.cur-user-msg-input {
+    height: 128px;
+    border: 3px solid red;
+}
+
+section.therapist {
+    width: 40%;
+    background: lightgray;
+    border: 1px solid blue;
+
+}
+section.user-list {
+    width: 20%;
+    background: lightyellow;
+    border: 1px solid blue;
+}

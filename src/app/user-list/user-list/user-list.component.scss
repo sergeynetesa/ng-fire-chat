@@ -1,0 +1,20 @@
+div.container {
+  width: auto; 
+  // border: 3px solid #555;
+}
+.user-list-container {
+    width: auto;
+    height: 32vh;
+    margin: 10px, 10px,10px, 10px;
+    border: 1px solid #555;
+  }
+  .mat-list-item, .mat-list-option {
+    height: 32px !important;
+}
+  button.user-list-btn {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left:auto; 
+    margin-right:auto;
+  }

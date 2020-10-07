@@ -1,0 +1,21 @@
+<div class="container">
+  <mat-drawer-container class="user-list-container">    
+    <mat-selection-list [multiple]="false">
+      <mat-list-option *ngFor="let user of users" (click)="selectUser(user)"
+                        >
+        <span >{{ user }}</span>
+      </mat-list-option>
+      <mat-list-option *ngIf="users.length === 0">
+        <span >User List is empty!</span>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-drawer-container>
+  
+    <button mat-flat-button color="primary"  class="user-list-btn">
+      Create User
+    </button> 
+
+    <button mat-flat-button color="primary"  class="user-list-btn">
+      Mark Read
+    </button> 
+</div>
