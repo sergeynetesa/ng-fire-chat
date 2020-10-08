@@ -1,21 +1,35 @@
+  
 <main>
-  <section class="cur-user">
-    <mat-toolbar class="user-header" >Current User</mat-toolbar>
-    <div class="cur-user-chat">      
-      <app-user-chat></app-user-chat>
+  <ng-container *ngIf="(curUser$ | async) as cur_user; else notSelected">
+    <section class="cur-user">
+      <mat-toolbar class="user-header" >{{cur_user.name}}</mat-toolbar>
+      <div class="cur-user-chat">      
+        <app-user-chat></app-user-chat>        
+      </div>
+      <div class="cur-user-msg-input">      
+        <app-user-msg-input></app-user-msg-input>
+      </div>
+      <!-- <mat-toolbar class="user-footer" >            
+      </mat-toolbar> -->
+    </section>
+    <section class="therapist">
+      <mat-toolbar class="therapist-header">Therapist</mat-toolbar>
       
-    </div>
-    <div class="cur-user-msg-input">      
-      <app-user-msg-input></app-user-msg-input>
-    </div>
-    <!-- <mat-toolbar class="user-footer" >            
-    </mat-toolbar> -->
-  </section>
-  <section class="therapist">
-    <mat-toolbar class="therapist-header">Therapist</mat-toolbar>
-  </section>
+    </section>
+    </ng-container>
+  <ng-template #notSelected>
+    <section class="cur-user">
+      <mat-toolbar class="user-header" color="warn">Select User!</mat-toolbar>
+    </section>
+    <section class="therapist">
+      <mat-toolbar class="therapist-header" color="warn">Select User!</mat-toolbar>
+      
+    </section>
+  </ng-template>
+
   <section class="user-list">
     <mat-toolbar class="user-list-header">User List</mat-toolbar>
     <app-user-list></app-user-list>
   </section>
 </main>
+
