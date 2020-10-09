@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngfire-auth": {
+    "ng-fire-chat": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -39,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngfire-auth",
+            "outputPath": "dist/ng-fire-chat",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -89,18 +89,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngfire-auth:build"
+            "browserTarget": "ng-fire-chat:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngfire-auth:build:production"
+              "browserTarget": "ng-fire-chat:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngfire-auth:build"
+            "browserTarget": "ng-fire-chat:build"
           }
         },
         "deploy": {
@@ -110,5 +110,5 @@
       }
     }
   },
-  "defaultProject": "ngfire-auth"
+  "defaultProject": "ng-fire-chat"
 }
