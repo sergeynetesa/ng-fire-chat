@@ -25,6 +25,7 @@ export class UserListComponent implements OnInit {
   // users = Array.from({length: 25}, (_, i) => `User ${++i}`);
 
   public currentUserList$: Observable<UserInterface[]> = null; 
+  public curUserId: string = null; 
 
   constructor(
     private readonly ngFireAuth: AngularFireAuth, 
@@ -45,7 +46,8 @@ export class UserListComponent implements OnInit {
     
     const userDoc: AngularFirestoreDocument<UserInterface> = 
       this.ngFireStore.doc(`users/${user.UUID}`);
-    
+
+    this.curUserId = user.UUID;
     this.currentUserSrv.selectCurrentUserDoc({userId: user.UUID, userDoc});
   }
   
@@ -122,27 +124,6 @@ export class UserListComponent implements OnInit {
     const therapistDate: Date = nowDate;      
     const day = dayjs(therapistDate);
 
-    // const yearFormat = new Intl.DateTimeFormat("en" , {
-    //   year: "numeric", 
-    //  });
-    //  const monthFormat = new Intl.DateTimeFormat("en" , {
-    //   month:"2-digit",
-    //  });
-    //  const dayFormat = new Intl.DateTimeFormat("en" , {
-    //   day: "2-digit"
-    //  });
-    //  const hourFormat = new Intl.DateTimeFormat("en" , {
-    //   hour12: false,
-    //   hour: "2-digit"
-    //  });
-    //  const minuteFormat = new Intl.DateTimeFormat("en" , {
-    //   minute: "2-digit"
-    //  });
-    //  const secondFormat = new Intl.DateTimeFormat("en" , {
-    //   second: "2-digit"
-    //  });
-    // const messageID =  `${hourFormat.format(therapistDate)}${minuteFormat.format(therapistDate)}${secondFormat.format(therapistDate)}.${therapistDate.getMilliseconds()}`;
-    
     const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
     const msgFieldName = `${day.format('HH')}${day.format('mm')}${day.format('ss')}.${day.format('SSS')}`;
 
@@ -170,25 +151,24 @@ export class UserListComponent implements OnInit {
   }
 
   markRead() {
-    console.log('<--- SYNC ENTER UserListComponent.markRead() --->');
+    // console.log('<--- SYNC ENTER UserListComponent.markRead() --->');
     
-    // const now_ts = firebase.firestore.Timestamp.now();
+    const now_ts = firebase.firestore.Timestamp.now();
 
-    // const userDoc: AngularFirestoreDocument<UserInterface> = 
-    //   this.ngFireStore.doc('users/27Cgoy3EmEXMNzTP1XmA');
+    const userDoc: AngularFirestoreDocument<Partial <{ 
+      name: string; 
+      therapist_msg: firebase.firestore.Timestamp; 
+      user_msg: firebase.firestore.Timestamp; 
+    }>> = this.ngFireStore.doc(`users/${this.curUserId}`);
 
-    // userDoc.update({
-    //   name: `User 5`,
-    //   therapist_msg: now_ts,
-    //   user_msg: now_ts
-    // })
-    // .then((_) => {
-    //   console.log("THEN User Doc updated!");      
-    // })
-    // .catch(function(error) {
-    //     console.error("Error updating document: ", error);
-    // });
-    console.log('<--- SYNC EXIT UserListComponent.markRead() --->');
+    userDoc.set({therapist_msg: now_ts, user_msg: now_ts}, {merge: true})    
+    .then((_) => {
+      console.log("THEN User Doc has been updated!");      
+    })
+    .catch(function(error) {
+        console.error("Error updating document: ", error);
+    });
+    // console.log('<--- SYNC EXIT UserListComponent.markRead() --->');
   }
   // ---------------------------eoc -------------------------------------------
 }

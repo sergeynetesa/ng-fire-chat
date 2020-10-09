@@ -7,6 +7,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar, MatSnackBarDismiss } 
         from '@angular/material/snack-bar'; 
 
+import * as firebase from "firebase/app";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore'; 
 
 import * as dayjs from 'dayjs';
@@ -71,33 +72,12 @@ export class UserMsgInputComponent implements OnInit {
       console.log('<--- SYNC ERROR UserMsgInputComponent.onUserMsgSubmit(): invalid form!');
       return;
     }
-    const userDate: Date = new Date();      
+
+    const userDate: Date = new Date();
+    const now_ts = firebase.firestore.Timestamp.fromDate(userDate);
+
     const day = dayjs(userDate);
 
-    // const yearFormat = new Intl.DateTimeFormat("en" , {
-    //   year: "numeric", 
-    //  });
-    //  const monthFormat = new Intl.DateTimeFormat("en" , {
-    //   month:"2-digit",
-    //  });
-    //  const dayFormat = new Intl.DateTimeFormat("en" , {
-    //   day: "2-digit"
-    //  });
-
-    //  const hourFormat = new Intl.DateTimeFormat("en" , {
-    //   hour12: false,   // hourCycle: 'h23',
-    //   hour: "2-digit"
-    //  });     
-    //  const minuteFormat = new Intl.DateTimeFormat("en" , {
-    //   minute: "2-digit"
-    //  });
-    //  const secondFormat = new Intl.DateTimeFormat("en" , {
-    //   second: "2-digit"
-    //  });
-    
-    // const msgID = `${yearFormat.format(userDate)}-${monthFormat.format(userDate)}-${dayFormat.format(userDate)}`; 
-    // const msgFieldName = `${hourFormat.format(userDate)}${minuteFormat.format(userDate)}${secondFormat.format(userDate)}.${userDate.getMilliseconds()}`;
-    
     const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
     const msgFieldName = `${day.format('HH')}${day.format('mm')}${day.format('ss')}.${day.format('SSS')}`;
 
@@ -110,7 +90,35 @@ export class UserMsgInputComponent implements OnInit {
           } 
       }, {merge: true})
     .then((_) => {
-      console.log("THEN Message Doc updated!");      
+      console.log("THEN Message Doc updated!");
+
+      const userDoc: AngularFirestoreDocument<Partial <{ 
+        name: string; 
+        therapist_msg: firebase.firestore.Timestamp; 
+        user_msg: firebase.firestore.Timestamp; 
+      }>> = 
+      this.ngFireStore.doc(`users/${this.curUser.UUID}`);
+      
+      let obj: Partial<{ // wrong!
+        name: string; 
+        therapist_msg: firebase.firestore.Timestamp; 
+        user_msg: firebase.firestore.Timestamp; 
+      }>;
+
+      if (this.user_type==='user') {
+        // obj.user_msg = now_ts; // wrong!
+        return userDoc.set({user_msg: now_ts}, {merge: true});
+      } else {
+        // obj.therapist_msg = now_ts; // wrong!
+        return userDoc.set({therapist_msg: now_ts}, {merge: true});
+      }      
+    })
+    .then((_) => {
+      console.log("THEN User Doc has been updated!");
+      
+      // this.userFG.setValue({user_message: ''});
+      // this.userFG.reset({user_message: ''});
+      this.user_message.reset();
     })
     .catch(function(error) {
         console.error("Error updating Message Doc: ", error);
@@ -120,34 +128,34 @@ export class UserMsgInputComponent implements OnInit {
   getCurMessages() {
     console.log('<--- SYNC ENTER UserMsgInputComponent.getCurMessages() --->');
     
-    const userDate: Date = new Date();      
-    const day = dayjs(userDate);
+    // const userDate: Date = new Date();      
+    // const day = dayjs(userDate);
 
-    const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
+    // const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
 
-    const userMsgDoc: AngularFirestoreDocument<{ [x: string]: { source: string; text: string; }; }> = 
-      this.ngFireStore.doc(`users/${this.curUser.UUID}/messages/${msgID}`);
+    // const userMsgDoc: AngularFirestoreDocument<{ [x: string]: { source: string; text: string; }; }> = 
+    //   this.ngFireStore.doc(`users/${this.curUser.UUID}/messages/${msgID}`);
 
-    const curUserMsg$ = userMsgDoc.valueChanges()
-      .pipe(
-        // take(1),
-        tap(msg => {
-          console.log('\tPIPE: UserMsgInputComponent.getCurMessages().tap2 msg: %O', msg );           
-        }),
-        map(msg => {
-          let result = [];
-          for(let p in msg) { 
-            result.push({id: p, source: msg[p].source, txt: msg[p].text}); 
-          }
-          result.sort((a, b) => Number.parseFloat(a.id) - Number.parseFloat(b.id));
-          return result;
-        }),
-        tap(arr => {          
-          console.log('\tPIPE: UserMsgInputComponent.getCurMessages().tap2 arr: %O', arr );           
-        }),
-      );
+    // const curUserMsg$ = userMsgDoc.valueChanges()
+    //   .pipe(
+    //     // take(1),
+    //     tap(msg => {
+    //       console.log('\tPIPE: UserMsgInputComponent.getCurMessages().tap2 msg: %O', msg );           
+    //     }),
+    //     map(msg => {
+    //       let result = [];
+    //       for(let p in msg) { 
+    //         result.push({id: p, source: msg[p].source, txt: msg[p].text}); 
+    //       }
+    //       result.sort((a, b) => Number.parseFloat(a.id) - Number.parseFloat(b.id));
+    //       return result;
+    //     }),
+    //     tap(arr => {          
+    //       console.log('\tPIPE: UserMsgInputComponent.getCurMessages().tap2 arr: %O', arr );           
+    //     }),
+    //   );
     
-    const subs = curUserMsg$.subscribe();
+    // const subs = curUserMsg$.subscribe();
 
     console.log('<--- SYNC EXIT UserMsgInputComponent.getCurMessages() --->'); 
   } 
