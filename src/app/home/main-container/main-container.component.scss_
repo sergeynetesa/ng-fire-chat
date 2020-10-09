@@ -12,8 +12,7 @@ main {
     right: 0;
     width: 100%;
 }
-section.cur-user, section.therapist
- {
+section.cur-user {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -24,28 +23,27 @@ section.cur-user, section.therapist
     background: lightblue;
     border: 1px solid blue;
 }
-.user-header, .therapist-header{
-    justify-content: center;
-    padding: 20px 0;
-}
-.cur-msg-input{
-    margin-top: 5px; 
-   /* height: 75px; */
-    border: 3px solid red;
-}
-
 div.cur-user-chat {
 
     flex: 1 1 auto;
     // border: 1px solid red;
 }
+// ::ng-deep app-user-chat > mat-drawer-container.user-chat-container  {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     align-content: stretch;
+//     align-items: stretch;
 
-/*
+//     background-color: greenyellow;
+//     // flex: 1 1 auto;
+// }
+
 div.cur-user-msg-input {
-    height: 100px;    
+    height: 128px;
     border: 3px solid red;
 }
-*/
+
 section.therapist {
     width: 40%;
     background: lightgray;
@@ -57,4 +55,3 @@ section.user-list {
     background: lightyellow;
     border: 1px solid blue;
 }
-
