@@ -17,6 +17,8 @@ import { UserMsgInputComponent } from './user/user-msg-input/user-msg-input.comp
 import { UserChatComponent } from './user/user-chat/user-chat.component';
 import { UserListComponent } from './user-list/user-list/user-list.component';
 
+import { MsgObjToArrayPipe } from './shared/pipes/msg-obj-to-array.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +26,7 @@ import { UserListComponent } from './user-list/user-list/user-list.component';
     UserMsgInputComponent,
     UserChatComponent,
     UserListComponent,
+    MsgObjToArrayPipe
   ],
   imports: [
     BrowserModule,

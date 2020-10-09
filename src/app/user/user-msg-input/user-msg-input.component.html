@@ -7,19 +7,19 @@
               formControlName="user_message"
               required
       >
-      <mat-label>User message</mat-label>            
+      <mat-label>{{user_type==='user' ? 'User':'Therapist'}} message</mat-label>            
       <mat-error *ngIf="user_message?.hasError('required')">
-        ERROR: User message is required
+        ERROR: Message is required
       </mat-error>
       <mat-error *ngIf="user_message?.hasError('minlength')">             
         ERROR: Message must be at least {{user_message?.getError('minlength').requiredLength}} characters long.
       </mat-error>                     
     </mat-form-field>
     <button mat-flat-button color="primary">
-                    User Send
+                    {{user_type==='user' ? 'User':'Therapist'}} Send
     </button> 
   </form> 
-  <button mat-flat-button color="primary" (click)="getCurMessages()">
+  <!-- <button mat-flat-button color="primary" (click)="getCurMessages()">
     Messages
-</button> 
+</button>  -->
 </div>

@@ -1,22 +1,30 @@
   
 <main>
   <ng-container *ngIf="(curUser$ | async) as cur_user; else notSelected">
-    <section class="cur-user">
-      <mat-toolbar class="user-header" >{{cur_user.name}}</mat-toolbar>
-      <div class="cur-user-chat">      
-        <app-user-chat></app-user-chat>        
-      </div>
-      <div class="cur-user-msg-input">      
-        <app-user-msg-input></app-user-msg-input>
-      </div>
-      <!-- <mat-toolbar class="user-footer" >            
-      </mat-toolbar> -->
-    </section>
-    <section class="therapist">
-      <mat-toolbar class="therapist-header">Therapist</mat-toolbar>
-      
-    </section>
+    <ng-container *ngIf="curUserMsg$ | async | msgObjToArray: cur_user.name as msg_arr">
+      <section class="cur-user">
+        <mat-toolbar class="user-header" >{{cur_user.name}}</mat-toolbar>
+        <div class="cur-user-chat">      
+          <app-user-chat [data-source]="msg_arr" [user-type]="'user'"></app-user-chat>        
+        </div>
+        <div class="cur-user-msg-input">      
+          <app-user-msg-input [user-type]="'user'"></app-user-msg-input>
+        </div>
+        <!-- <mat-toolbar class="user-footer" >            
+        </mat-toolbar> -->
+      </section>
+      <section class="therapist">
+        <mat-toolbar class="therapist-header">Therapist</mat-toolbar>
+        <div class="cur-user-chat">      
+          <app-user-chat [data-source]="msg_arr" [user-type]="'therapist'"></app-user-chat>        
+        </div>
+        <div class="cur-user-msg-input">      
+          <app-user-msg-input [user-type]="'therapist'"></app-user-msg-input>
+        </div>
+      </section>
     </ng-container>
+  </ng-container>
+
   <ng-template #notSelected>
     <section class="cur-user">
       <mat-toolbar class="user-header" color="warn">Select User!</mat-toolbar>

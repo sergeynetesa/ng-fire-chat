@@ -1,8 +1,8 @@
 <mat-drawer-container class="user-chat-container">    
-  <dl class="example-dl">
-    <ng-container *ngFor="let state of states">
-        <dt class="example-dt">{{state.name}}</dt>
-        <dd class="example-dd">{{state.capital}}</dd>
-    </ng-container>
-  </dl>
+  <mat-list>
+    <mat-list-item *ngFor="let msg of messages">      
+        <div mat-line [style.text-align]="getTextAlign(msg)">{{msg.src_name}}</div>
+        <div mat-line [style.text-align]="getTextAlign(msg)">{{msg.txt}} </div>      
+    </mat-list-item>
+  </mat-list>
 </mat-drawer-container>

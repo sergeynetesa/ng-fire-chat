@@ -172,22 +172,22 @@ export class UserListComponent implements OnInit {
   markRead() {
     console.log('<--- SYNC ENTER UserListComponent.markRead() --->');
     
-    const now_ts = firebase.firestore.Timestamp.now();
+    // const now_ts = firebase.firestore.Timestamp.now();
 
-    const userDoc: AngularFirestoreDocument<UserInterface> = 
-      this.ngFireStore.doc('users/27Cgoy3EmEXMNzTP1XmA');
+    // const userDoc: AngularFirestoreDocument<UserInterface> = 
+    //   this.ngFireStore.doc('users/27Cgoy3EmEXMNzTP1XmA');
 
-    userDoc.update({
-      name: `User 5`,
-      therapist_msg: now_ts,
-      user_msg: now_ts
-    })
-    .then((_) => {
-      console.log("THEN User Doc updated!");      
-    })
-    .catch(function(error) {
-        console.error("Error updating document: ", error);
-    });
+    // userDoc.update({
+    //   name: `User 5`,
+    //   therapist_msg: now_ts,
+    //   user_msg: now_ts
+    // })
+    // .then((_) => {
+    //   console.log("THEN User Doc updated!");      
+    // })
+    // .catch(function(error) {
+    //     console.error("Error updating document: ", error);
+    // });
     console.log('<--- SYNC EXIT UserListComponent.markRead() --->');
   }
   // ---------------------------eoc -------------------------------------------

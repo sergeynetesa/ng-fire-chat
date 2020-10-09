@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs';
@@ -27,6 +27,8 @@ export class UserMsgInputComponent implements OnInit {
   public curUser: UserInterface | null = null; 
 
   get user_message() { return this.userFG.get('user_message'); } 
+  
+  @Input('user-type') user_type: string;  
   // --------------------------------------------------------------
   private simpleSnackBarRef: MatSnackBarRef<SimpleSnackBar> = null;
   
@@ -103,7 +105,7 @@ export class UserMsgInputComponent implements OnInit {
             this.ngFireStore.doc(`users/${this.curUser.UUID}/messages/${msgID}`);
 
     userMsgDoc.set({ [msgFieldName] : {
-            source: 'user',
+            source: this.user_type==='user' ? 'user' : 'therapist',
             text: value.user_message,
           } 
       }, {merge: true})
@@ -121,17 +123,6 @@ export class UserMsgInputComponent implements OnInit {
     const userDate: Date = new Date();      
     const day = dayjs(userDate);
 
-    // const yearFormat = new Intl.DateTimeFormat("en" , {
-    //   year: "numeric", 
-    //  });
-    //  const monthFormat = new Intl.DateTimeFormat("en" , {
-    //   month:"2-digit",
-    //  });
-    //  const dayFormat = new Intl.DateTimeFormat("en" , {
-    //   day: "2-digit"
-    //  });
-    // const msgID = `${yearFormat.format(userDate)}-${monthFormat.format(userDate)}-${dayFormat.format(userDate)}`; 
-    
     const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
 
     const userMsgDoc: AngularFirestoreDocument<{ [x: string]: { source: string; text: string; }; }> = 
