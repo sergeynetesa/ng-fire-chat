@@ -117,20 +117,23 @@ export class UserMsgInputComponent implements OnInit {
   }
   getCurMessages() {
     console.log('<--- SYNC ENTER UserMsgInputComponent.getCurMessages() --->');
+    
     const userDate: Date = new Date();      
-    
-    const yearFormat = new Intl.DateTimeFormat("en" , {
-      year: "numeric", 
-     });
-     const monthFormat = new Intl.DateTimeFormat("en" , {
-      month:"2-digit",
-     });
-     const dayFormat = new Intl.DateTimeFormat("en" , {
-      day: "2-digit"
-     });
+    const day = dayjs(userDate);
 
-    const msgID = `${yearFormat.format(userDate)}-${monthFormat.format(userDate)}-${dayFormat.format(userDate)}`; 
+    // const yearFormat = new Intl.DateTimeFormat("en" , {
+    //   year: "numeric", 
+    //  });
+    //  const monthFormat = new Intl.DateTimeFormat("en" , {
+    //   month:"2-digit",
+    //  });
+    //  const dayFormat = new Intl.DateTimeFormat("en" , {
+    //   day: "2-digit"
+    //  });
+    // const msgID = `${yearFormat.format(userDate)}-${monthFormat.format(userDate)}-${dayFormat.format(userDate)}`; 
     
+    const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
+
     const userMsgDoc: AngularFirestoreDocument<{ [x: string]: { source: string; text: string; }; }> = 
       this.ngFireStore.doc(`users/${this.curUser.UUID}/messages/${msgID}`);
 

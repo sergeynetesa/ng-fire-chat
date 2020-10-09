@@ -10,6 +10,8 @@ import * as firebase from "firebase/app";
 import { AngularFireAuth } from "@angular/fire/auth";  
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore'; 
 
+import * as dayjs from 'dayjs';
+
 import { UserInterface } from 'src/app/shared/model/user';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 
@@ -116,32 +118,37 @@ export class UserListComponent implements OnInit {
   })
   .then((docRef: firebase.firestore.DocumentReference) => {
     console.log("THEN Document written with ID: %s ", docRef.id);
+    
     const therapistDate: Date = nowDate;      
+    const day = dayjs(therapistDate);
+
+    // const yearFormat = new Intl.DateTimeFormat("en" , {
+    //   year: "numeric", 
+    //  });
+    //  const monthFormat = new Intl.DateTimeFormat("en" , {
+    //   month:"2-digit",
+    //  });
+    //  const dayFormat = new Intl.DateTimeFormat("en" , {
+    //   day: "2-digit"
+    //  });
+    //  const hourFormat = new Intl.DateTimeFormat("en" , {
+    //   hour12: false,
+    //   hour: "2-digit"
+    //  });
+    //  const minuteFormat = new Intl.DateTimeFormat("en" , {
+    //   minute: "2-digit"
+    //  });
+    //  const secondFormat = new Intl.DateTimeFormat("en" , {
+    //   second: "2-digit"
+    //  });
+    // const messageID =  `${hourFormat.format(therapistDate)}${minuteFormat.format(therapistDate)}${secondFormat.format(therapistDate)}.${therapistDate.getMilliseconds()}`;
     
-    const yearFormat = new Intl.DateTimeFormat("en" , {
-      year: "numeric", 
-     });
-     const monthFormat = new Intl.DateTimeFormat("en" , {
-      month:"2-digit",
-     });
-     const dayFormat = new Intl.DateTimeFormat("en" , {
-      day: "2-digit"
-     });
-     const hourFormat = new Intl.DateTimeFormat("en" , {
-      hour12: false,
-      hour: "2-digit"
-     });
-     const minuteFormat = new Intl.DateTimeFormat("en" , {
-      minute: "2-digit"
-     });
-     const secondFormat = new Intl.DateTimeFormat("en" , {
-      second: "2-digit"
-     });
-    const messageID =  `${hourFormat.format(therapistDate)}${minuteFormat.format(therapistDate)}${secondFormat.format(therapistDate)}.${therapistDate.getMilliseconds()}`;
-    
+    const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
+    const msgFieldName = `${day.format('HH')}${day.format('mm')}${day.format('ss')}.${day.format('SSS')}`;
+
     return db.collection(`${docRef.path}/messages`)
-      .doc(`${yearFormat.format(therapistDate)}-${monthFormat.format(therapistDate)}-${dayFormat.format(therapistDate)}`)
-      .set({ [messageID] : {
+      .doc(msgID)
+      .set({ [msgFieldName] : {
             source: 'therapist',
             text: 'Welcome to our system.'
           }          
