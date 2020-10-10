@@ -1,7 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+
+import { MatSnackBar, SimpleSnackBar, MatSnackBarRef,
+  MatSnackBarDismiss} from '@angular/material/snack-bar';
 
 import { UserInterface } from 'src/app/shared/model/user';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
@@ -16,7 +19,7 @@ import * as dayjs from 'dayjs';
   styleUrls: ['./main-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainContainerComponent implements OnInit {
+export class MainContainerComponent implements OnInit, OnDestroy {
 
   public curUser$: Observable<UserInterface|null> = null; 
   public curUser: UserInterface | null = null; 
@@ -27,11 +30,14 @@ export class MainContainerComponent implements OnInit {
         text: string;
     };
   }> = null;
+  // --------------------------------------------------------------
+  private simpleSnackBarRef: MatSnackBarRef<SimpleSnackBar> = null;
+  // -------------------------------------------------------------- 
 
   constructor(
     private readonly ngFireStore: AngularFirestore,
     public currentUserSrv: CurrentUserService,
-
+    private snackBarSrv: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -59,12 +65,27 @@ export class MainContainerComponent implements OnInit {
           }> = this.ngFireStore.doc(`users/${this.curUser.UUID}/messages/${msgID}`);
         
         return  userMsgDoc.valueChanges();
+      }),
+      tap((x) => {
+        console.log('\tPIPE: MainContainerComponent.ngOnInit().tap userMsgObj: %O', x); 
+        if (!x) {
+          this.simpleSnackBarRef = this.snackBarSrv.open(`WARNING: there are no current messages!`,
+            'X', {
+            duration: 0,
+            panelClass: 'mat-snack-bar-container_err'
+            }); 
+        }
       })
-    );
-    
+    );   
 
   }
-
   
+  ngOnDestroy() {
+    if (this.simpleSnackBarRef != null) {
+      this.simpleSnackBarRef.dismiss();
+      this.simpleSnackBarRef = null;
+    }
+  } 
+
 // ---------------------------------------
 }

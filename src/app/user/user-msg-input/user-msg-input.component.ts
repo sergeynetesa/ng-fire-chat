@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormGroupDirective } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -66,7 +66,8 @@ export class UserMsgInputComponent implements OnInit {
     // --------------- eom ------------------------------
   }
 
-  onUserMsgSubmit({ value, valid }: { value: any, valid: boolean }) {
+  onUserMsgSubmit({ value, valid }: { value: any, valid: boolean }, 
+                    formDirective: FormGroupDirective) {
     console.log('<--- SYNC ENTER UserMsgInputComponent.onUserMsgSubmit() --->');
     if (!valid) {      
       console.log('<--- SYNC ERROR UserMsgInputComponent.onUserMsgSubmit(): invalid form!');
@@ -116,9 +117,9 @@ export class UserMsgInputComponent implements OnInit {
     .then((_) => {
       console.log("THEN User Doc has been updated!");
       
-      // this.userFG.setValue({user_message: ''});
+      formDirective.resetForm();
       // this.userFG.reset({user_message: ''});
-      this.user_message.reset();
+      this.userFG.reset();      
     })
     .catch(function(error) {
         console.error("Error updating Message Doc: ", error);

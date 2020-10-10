@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { tap, map, filter, switchMap } from 'rxjs/operators'; 
@@ -21,12 +21,15 @@ import { CurrentUserService } from 'src/app/shared/services/current-user.service
   styleUrls: ['./user-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
   // users = Array.from({length: 25}, (_, i) => `User ${++i}`);
 
   public currentUserList$: Observable<UserInterface[]> = null; 
   public curUserId: string = null; 
-
+  // --------------------------------------------------------------
+  private simpleSnackBarRef: MatSnackBarRef<SimpleSnackBar> = null;
+  // -------------------------------------------------------------- 
+ 
   constructor(
     private readonly ngFireAuth: AngularFireAuth, 
     private readonly ngFireStore: AngularFirestore,
@@ -121,8 +124,8 @@ export class UserListComponent implements OnInit {
   .then((docRef: firebase.firestore.DocumentReference) => {
     console.log("THEN Document written with ID: %s ", docRef.id);
     
-    const therapistDate: Date = nowDate;      
-    const day = dayjs(therapistDate);
+    const day = dayjs(nowDate);
+    // const day = dayjs(nowDate).subtract(24, 'h'); // debug
 
     const msgID = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`; 
     const msgFieldName = `${day.format('HH')}${day.format('mm')}${day.format('ss')}.${day.format('SSS')}`;
@@ -136,8 +139,19 @@ export class UserListComponent implements OnInit {
       });
   })
   .then((_) => {
-    console.log("THEN Message has been added!");
-    
+    // console.log("THEN Message has been added!");
+    this.simpleSnackBarRef =
+        this.snackBarSrv.open(`OK: [User ${user_number}] has been created!`,
+        '', {
+        duration: 1500,
+        panelClass: 'mat-snack-bar-container_info'
+      });
+      this.simpleSnackBarRef.afterDismissed()
+      .subscribe(
+        (res: MatSnackBarDismiss) => { 
+
+        }
+      ); 
   })
   .catch(function(error) {
       console.error("Error adding document: ", error);
@@ -163,12 +177,31 @@ export class UserListComponent implements OnInit {
 
     userDoc.set({therapist_msg: now_ts, user_msg: now_ts}, {merge: true})    
     .then((_) => {
-      console.log("THEN User Doc has been updated!");      
+      // console.log("THEN User Doc has been updated!");     
+      this.simpleSnackBarRef =
+        this.snackBarSrv.open(`OK: User Chat has been marked!`,
+        '', {
+        duration: 1500,
+        panelClass: 'mat-snack-bar-container_info'
+      });
+      this.simpleSnackBarRef.afterDismissed()
+      .subscribe(
+        (res: MatSnackBarDismiss) => { 
+
+        }
+      );  
     })
     .catch(function(error) {
         console.error("Error updating document: ", error);
     });
     // console.log('<--- SYNC EXIT UserListComponent.markRead() --->');
   }
+
+  ngOnDestroy() {
+    if (this.simpleSnackBarRef != null) {
+      this.simpleSnackBarRef.dismiss();
+      this.simpleSnackBarRef = null;
+    }
+  } 
   // ---------------------------eoc -------------------------------------------
 }

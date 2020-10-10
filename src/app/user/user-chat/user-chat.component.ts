@@ -8,12 +8,18 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 })
 export class UserChatComponent implements OnInit {
   
-  @Input('data-source') messages: {id: string; src: string; src_name: string; txt: string}[];  
+  @Input('data-source') 
+    messages: {id: string; src: string; src_name: string; txt: string}[];  
   @Input('user-type') user_type: string;
 
-  constructor() { }
+  constructor() { 
+
+  }
 
   ngOnInit(): void {
+    console.log('<--- SYNC ENTER UserChatComponent.ngOnInit() messages: %O', this.messages );
+
+
   }
   getTextAlign(msg: {id: string; src: string; src_name: string; txt: string}) {
     if (this.user_type==='user') {

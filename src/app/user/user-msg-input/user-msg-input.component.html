@@ -1,6 +1,6 @@
 <ng-container *ngIf="(curUser$ | async) as cur_user"></ng-container>
 <div>
-  <form (ngSubmit)="onUserMsgSubmit(userFG)" [formGroup]="userFG">
+  <form (ngSubmit)="onUserMsgSubmit(userFG,formDirective)" [formGroup]="userFG" #formDirective="ngForm">
     <mat-form-field class="full-width" appearance="outline" floatLabel="auto">
       <input  matInput 
               placeholder="Input User message"
@@ -21,5 +21,5 @@
   </form> 
   <!-- <button mat-flat-button color="primary" (click)="getCurMessages()">
     Messages
-</button>  -->
+  </button> -->
 </div>
