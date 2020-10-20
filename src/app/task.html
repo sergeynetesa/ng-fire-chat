@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Length Units</title>
+	<style type="text/css">
+
+:root {
+	font-size: 10px;
+}	
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 40px;
+  background-color: #fff;
+  color: #444;
+  font: 1.4em Sansita, sans-serif;
+}
+
+	</style>
+</head>
+<body>
+    <h3>Overview</h3>
+    This is a test app to prove technical skill in <strong>Web UI</strong> and <strong>Firebase / Firestore</strong>.<br />
+    We want to build a simple <u>one-to-many</u> <strong>chat interface</strong>. 
+    In this case we have many <strong>end users</strong> and <strong>1 support person</strong> who chats with them, a <strong>Therapist</strong>.
+    The <strong>users</strong> and <strong>chat data</strong> are <u>all</u> stored in <strong>Firestore</strong>. 
+    <u>All</u> chat data should be loaded from <b>Firestore</b>.<br />
+    <u>All</u> updates to <b>users</b> and <b>chat text</b> should be tracked with a 
+    <b>document</b> or <b>collection snapshot listener</b> (see https://firebase.google.com/docs/firestore/query-data/listen)
+    
+    <h3>Screen</h3>
+    There is 1 screen with 3 main sections.    
+    <p><img alt="" src="../assets/img/test_app_files/image001.jpg" /></p>
+
+    <h3>Section 1</h3>
+    This is the Current User chat. It shows:
+    The name of the current user (e.g. User 2). This should update when a new user is selected. 
+    The chat history. These should be loaded from Firestore and kept up to date using snapshot listeners.
+    The text field for a new message. The ôUser Sendö button. When the send button is pressed, the text in the text field is saved to Firestore and the text field cleared. 
+    Text is saved to the document
+    /users/<UUID>/messages/<YYYY-MM-DD> a new field is saved for each text message. The field is a map with two entries ôsourceö:ôuserö and ôtextö:<message text> in addition the current timestamp is save to the document /users/<UUID> to the field ôuser_msgö
+    
+    Section 2
+    This is the Therapist chat. It shows: 
+    A fixed name (e.g. Therapist). 
+    The chat history. These should be loaded from Firestore and kept up to date using snapshot listeners.
+    The text field for a new message.
+    ôTherapist Sendö button. When the send button is pressed, the text in the text field is saved to Firestore and the text field cleared. Text is saved to the document /users/<UUID>/messages/<YYYY-MM-DD> a new field is saved for each text message. The field is a map with two entries
+    ôsourceö:ôtherapistö and ôtextö:<message text> in addition the current timestamp is save to the document /users/<UUID> to the field ôtherapist_msgö
+    
+    Section 3
+    This shows:
+    The User Selection List. This allows selection of the current user. It also displays if there are unread messages form the user or therapist. A message is unread if the ôuser_msgö timestamp != the ôtherapist_msgö timestamp.
+    A ôCreate Userö button when pressed it adds a new user to Firestore and the User List should update using a snapshot listener. New users are added to /users/<UUID> with the fields ônameö:String , ôtherapist_msgö:Timestamp and ôuser_msgö:Timestamp set.
+    A ôMark Readö button. When pressed this button with set the current users ôtherapist_msgö field equal to the ôuser_msgö field. The newer of the two timestamps should used.
+    
+    Firebase
+    You should start form an empty Firestore and build up the following structure:
+    * Users (collection)
+    o <UUID> (document)
+    * name : String (field)
+    * therapists_msg : Timestamp (field)
+    * user_msg : Timestamp (field)
+    * messages (collection)
+    * <YYYY-MM-DD> (document)
+    o HHMMSS.sss : Map (field)
+    * source : String (map field)
+    * text : String (map field)
+    NOTE: you only need to display the current dayÆs chat text.
+    
+    The following images show the Firebase Firestore for the demo screen shown above.
+    
+    
+    
+        
+</body>
+</html>

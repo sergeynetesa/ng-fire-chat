@@ -70,8 +70,8 @@ export class MainContainerComponent implements OnInit, OnDestroy {
         console.log('\tPIPE: MainContainerComponent.ngOnInit().tap userMsgObj: %O', x); 
         if (!x) {
           this.simpleSnackBarRef = this.snackBarSrv.open(`WARNING: there are no current messages!`,
-            'X', {
-            duration: 0,
+            '', {
+            duration: 1500,
             panelClass: 'mat-snack-bar-container_err'
             }); 
         }

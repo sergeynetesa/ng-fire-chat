@@ -1,0 +1,87 @@
+<mat-card class="spec-card">
+  <mat-card-header>
+    <mat-card-title>Test Application Specification</mat-card-title>    
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card-subtitle>Overview</mat-card-subtitle>
+    <div class="row">
+      <div class="col-first">
+          This is a test app to prove technical skill in Web UI and Firebase / Firestore.<br />
+          We want to build a simple one-to-many&nbsp; Chat interface.
+          In this case we have many End Users and 1 support Person who chats with them, a Therapist.
+          The Users and Chat data are all stored in Firestore. 
+          All chat data should be loaded from Firestore.<br />
+          All updates to Users and Chat text should be tracked with a document or collection snapshot listener
+          (see https://firebase.google.com/docs/firestore/query-data/listen)
+      </div>
+    </div>
+    <mat-card-subtitle>Screen</mat-card-subtitle>
+    <div class="row">
+      <div class="col">
+        <div>
+          There is 1 screen with 3 main sections.    
+          <p><img alt="" src="../assets/img/spec_files/image001.jpg" /></p>
+        </div>
+      </div>
+    </div> 
+    <mat-card-subtitle>Section 1</mat-card-subtitle>
+    <div class="row"> 
+      <div class="col">
+        This is the Current User Chat. It shows: <br> name of the Current User (e.g. User 2). This should update when a new user is selected.<br>
+        The chat history.<br>These should be loaded from Firestore and kept up to date using snapshot listeners.<br>
+        The text field for a new message.<br>The &quot;User Send&quot; button. When the send button is pressed, 
+        the text in the text field is saved to Firestore and the text field cleared. <br>
+        Text is saved to the document /users/&lt;UUID&gt;/messages/&lt;YYYY-MM-DD&gt; a new field is saved for each text message. 
+        The field is a map with two entries &quot;source&quot;:&quot;user&quot;" and &quot;text&quot;:&lt;message text&gt; 
+        in addition the current timestamp is save to the document /users/&lt;UUID&gt; to the field &quot;user_msg&quot;    
+      </div>
+    </div>
+    <mat-card-subtitle>Section 2</mat-card-subtitle>
+    <div class="row">
+      <div class="col">
+          This is the Therapist chat. It shows: <br>
+          A fixed name (e.g. Therapist). <br>
+          The chat history. These should be loaded from Firestore and kept up to date using snapshot listeners.<br>
+          The text field for a new message.<br>
+          &quot;Therapist Send&quot; button. When the send button is pressed, the text in the text field is saved to Firestore and the text field cleared.<br>
+          Text is saved to the document /users/&lt;UUID&gt;/messages/&lt;YYYY-MM-DD&gt; a new field is saved for each text message.
+          The field is a map with two entries
+            &quot;source&quot;:&quot;therapist&quot; and &quot;text:&lt;message text&gt; 
+            in addition the current timestamp is save to the document /users/&lt;UUID&gt; to the field &quot;therapist_msg&quot;
+      </div>
+    </div>
+    <mat-card-subtitle>Section 3</mat-card-subtitle>
+    <div class="row">
+      <div class="col">
+        This shows:
+        The User Selection List. This allows selection of the current user. It also displays if there are unread messages form the user or therapist.<br> 
+        A message is unread if the &quot;user_msg&quot; timestamp != the &quot;therapist_msg&quot; timestamp.<br>
+        A &quot;Create User&quot; button when pressed it adds a new user to Firestore and the User List should update using a snapshot listener.
+        New users are added to /users/&lt;UUID&gt; with the fields &quot;name&quot;:String , &quot;therapist_msg&quot;:Timestamp and &quot;user_msg&quot;:Timestamp set.
+        A ôMark Readö button. When pressed this button with set the current users &quot;therapist_msg&quot; field equal to the &quot;user_msg&quot; field.
+        The newer of the two timestamps should used.
+      </div>
+    </div>
+    <mat-card-subtitle>Firebase</mat-card-subtitle>
+    <div class="row">
+      <div class="col">
+        You should start form an empty Firestore and build up the following structure:
+        <ul class="card-content">
+          <li>Users (collection)</li>
+          <li style="margin-left: 40px;">&lt;UUID&gt; (document)</li>
+          <li style="margin-left: 70px;">name : String (field)</li>
+          <li style="margin-left: 70px;">therapists_msg : Timestamp (field)</li>            
+          <li style="margin-left: 70px;">user_msg : Timestamp (field)</li>            
+          <li style="margin-left: 80px;">messages (collection)</li>
+          <li style="margin-left: 110px;">&lt;YYYY-MM-DD&gt; (document)</li>
+          <li style="margin-left: 110px;">HHMMSS.sss : Map (field)</li>
+          <li style="margin-left: 110px;">source : String (map field)</li>
+          <li style="margin-left: 110px;">text : String (map field)</li>
+        </ul>
+        <br>NOTE: you only need to display the current day&#39;s chat text.<br>
+        <br>The following images show the Firebase Firestore for the demo screen shown above.
+        <p><img alt="" width="720" src="../assets/img/spec_files/image004.gif" /></p>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

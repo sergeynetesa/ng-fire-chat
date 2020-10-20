@@ -1,0 +1,16 @@
+<button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+    <mat-icon>more_vert</mat-icon>
+</button>
+  <mat-menu #menu="matMenu">
+    <a mat-menu-item [routerLinkActive]="'active'" [routerLink]="['/main']">
+        <mat-icon >chat</mat-icon> Chat
+    </a> 
+    <a mat-menu-item [routerLinkActive]="'active'" [routerLink]="['/spec']">
+        <mat-icon >description</mat-icon> Specification 
+    </a>
+    <a mat-menu-item [routerLinkActive]="'active'" [routerLink]="['/about']">
+        <mat-icon >info</mat-icon> About
+    </a>    
+</mat-menu>
+  
+  

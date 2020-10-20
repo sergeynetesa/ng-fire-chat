@@ -21,8 +21,8 @@ section.cur-user, section.therapist
     align-items: stretch;
 
     width: 40%;
-    background: lightblue;
-    border: 1px solid blue;
+    // background: lightblue;
+    border: 1px solid lightgrey;
 }
 .user-header, .therapist-header{
     justify-content: center;
@@ -35,26 +35,19 @@ section.cur-user, section.therapist
 }
 
 div.cur-user-chat {
-
     flex: 1 1 auto;
     // border: 1px solid red;
 }
 
-/*
-div.cur-user-msg-input {
-    height: 100px;    
-    border: 3px solid red;
-}
-*/
 section.therapist {
     width: 40%;
-    background: lightgray;
-    border: 1px solid blue;
-
+    // background: lightgray;
+    border: 1px solid lightgrey;
 }
+
 section.user-list {
     width: 20%;
-    background: lightyellow;
-    border: 1px solid blue;
+    // background: lightyellow;
+    // border: 1px solid lightgrey;
 }
 

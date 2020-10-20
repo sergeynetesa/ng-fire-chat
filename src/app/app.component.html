@@ -1,5 +1,6 @@
 <ng-container>
   <mat-toolbar color="primary">
+    <app-top-menu></app-top-menu>
     <span class="page-title">Angular-Firebase Chat test app</span>
 
     <span class="nav-spacer"></span>
@@ -14,7 +15,7 @@
     </a> 
   </mat-toolbar>
    
-  <app-main-container></app-main-container> 
-
+  <router-outlet></router-outlet> 
+  
 </ng-container>
 
