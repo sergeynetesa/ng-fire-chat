@@ -1,0 +1,47 @@
+<div class="grid">
+  <ng-container *ngIf="(curUser$ | async) as cur_user; else notSelected">
+    <ng-container *ngIf="curUserMsg$ | async | msgObjToArray: cur_user.name as msg_arr">
+      <div class="user_header">
+        <mat-toolbar class="user-header" style="justify-content: center;">
+          {{cur_user.name}}
+        </mat-toolbar>
+      </div>
+      <div class="user_chat">
+        <app-user-chat [data-source]="msg_arr" [user-type]="'user'"></app-user-chat>
+      </div>
+      <div class="user_footer">
+        <app-user-msg-input [user-type]="'user'"></app-user-msg-input>          
+      </div>
+      <div class="ther_header">
+        <mat-toolbar class="therapist-header" style="justify-content: center;">Therapist</mat-toolbar>
+      </div>
+      <div class="ther_chat">
+        <app-user-chat [data-source]="msg_arr" [user-type]="'therapist'"></app-user-chat>
+      </div>
+      <div class="ther_footer">
+        <app-user-msg-input [user-type]="'therapist'"></app-user-msg-input>
+      </div>
+    </ng-container>
+  </ng-container>    
+
+  <ng-template #notSelected>
+    <div class="user_header">
+      <mat-toolbar class="user-header" color="accent" style="justify-content: center;">Select User!</mat-toolbar>
+    </div>
+    <div class="user_chat"></div>
+    <div class="user_footer"></div>
+    <div class="ther_header">
+      <mat-toolbar class="therapist-header" color="accent" style="justify-content: center;">Select User!</mat-toolbar>
+    </div>
+    <div class="ther_chat"></div>
+    <div class="ther_footer"></div>
+  </ng-template>
+
+    <div class="list_header">
+      <mat-toolbar class="user-list-header" style="justify-content: center;">User List</mat-toolbar>
+    </div>
+    <div class="user_list">
+      <app-user-list></app-user-list>
+    </div>
+    
+</div>

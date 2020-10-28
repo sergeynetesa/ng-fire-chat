@@ -15,8 +15,8 @@ import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'app-main-container',
-  templateUrl: './main-container.component.html',
-  styleUrls: ['./main-container.component.scss'],
+  templateUrl: './main-container-grid.component.html',
+  styleUrls: ['./main-container-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainContainerComponent implements OnInit, OnDestroy {

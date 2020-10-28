@@ -1,0 +1,48 @@
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    grid-template-rows: 64px calc(100vh - 206px) 76px;
+    
+    grid-template-areas: 
+       "user_head	ther_head 	list_head"  
+       "user_chat		ther_chat 	user_list" 
+       "user_foot 	ther_foot 	user_list";
+  }
+  
+  .user_header {
+    grid-area: user_head;
+  }
+  
+  .ther_header {
+    grid-area: ther_head;
+  }
+  
+  .list_header {
+    grid-area: list_head;
+  }
+  
+  .user_chat {
+    grid-area: user_chat;
+  }
+  
+  .ther_chat {
+    grid-area: ther_chat;
+  }
+  
+  .user_list {
+    grid-area: user_list;
+  }
+  
+  .user_footer {
+    grid-area: user_foot;
+  }
+  
+  .ther_footer {
+    grid-area: ther_foot;
+  }
+  
+  .grid > * {
+    // padding: 20px;
+    border: 1px solid rgb(198,164,154);
+    background-color: #fafafa;   
+  }

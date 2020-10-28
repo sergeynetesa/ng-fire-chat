@@ -1,4 +1,4 @@
-.row {
+  .row {
     display: flex;
     flex-direction: row;
   }
@@ -11,7 +11,11 @@
   .col:last-child {
     margin-right: 0;
   }
-  
+
+  form.msg_input {
+    padding-left: 20px;
+  }
+
 button.mat-flat-button {
   margin-left: 10px;
 }
