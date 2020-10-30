@@ -34,7 +34,7 @@ export class CurrentUserService {
     // private readonly ngFireStore: AngularFirestore, 
   ) { }
   
-  selectCurrentUserDoc({userId, userDoc}: {userId:string, userDoc: AngularFirestoreDocument<UserInterface>}) {    
+  selectCurrentUserDoc({userId, userDoc}: {userId: string, userDoc: AngularFirestoreDocument<UserInterface>}) {    
     this.currentUserId = userId;
     this.currentUserDocSub$.next(userDoc);
   }

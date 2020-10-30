@@ -100,11 +100,11 @@ export class UserMsgInputComponent implements OnInit {
       }>> = 
       this.ngFireStore.doc(`users/${this.curUser.UUID}`);
       
-      let obj: Partial<{ // wrong!
-        name: string; 
-        therapist_msg: firebase.firestore.Timestamp; 
-        user_msg: firebase.firestore.Timestamp; 
-      }>;
+      // let obj: Partial<{ // wrong!
+      //   name: string; 
+      //   therapist_msg: firebase.firestore.Timestamp; 
+      //   user_msg: firebase.firestore.Timestamp; 
+      // }>;
 
       if (this.user_type==='user') {
         // obj.user_msg = now_ts; // wrong!

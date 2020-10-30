@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { Observable } from 'rxjs';
 import { tap, map, filter, switchMap } from 'rxjs/operators'; 
 
+import { MatListOption, MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar, SimpleSnackBar, MatSnackBarRef,
   MatSnackBarDismiss} from '@angular/material/snack-bar';
 
@@ -38,22 +39,48 @@ export class UserListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    // const usersRef = this.ngFireStore.collection<UserInterface>('users', 
+    //             ref => ref.orderBy('therapist_msg')); 
+
     const usersRef = this.ngFireStore.collection<UserInterface>('users', 
-                ref => ref.orderBy('therapist_msg')); 
+                ref => ref.orderBy('name')); 
                 
-    this.currentUserList$ = usersRef.valueChanges({idField: 'UUID'})              
+    this.currentUserList$ = usersRef.valueChanges({idField: 'UUID'})
+    .pipe(
+      tap((userList: UserInterface[]) => {
+        console.log('\tPIPE: UserListComponent.tap userList: %O', userList); 
+        
+      })
+    )              
   }
 
-  selectUser(user: UserInterface) {
-    console.log('<--- SYNC ENTER UserListComponent.selectUser() user: $O', user);
-    
+  // selectUser(user: UserInterface, option: MatListOption) {
+  //   console.log('<--- SYNC ENTER UserListComponent.selectUser() user: %O option: %O', 
+  //                 user, option);
+  //   if (option.selected) {
+  //     // option.selectionList.deselectAll()
+  //     // option.toggle();
+  //   }
+  //   const userDoc: AngularFirestoreDocument<UserInterface> = 
+  //     this.ngFireStore.doc(`users/${user.UUID}`);
+
+  //   this.curUserId = user.UUID;
+  //   this.currentUserSrv.selectCurrentUserDoc({userId: user.UUID, userDoc});
+  // }
+  
+  onSelectionChanged(ev: MatSelectionListChange) {
+    console.log('<--- SYNC ENTER UserListComponent.onSelectionChanged() event: %O', ev);
+
+    const user: UserInterface = ev.option.value;
     const userDoc: AngularFirestoreDocument<UserInterface> = 
       this.ngFireStore.doc(`users/${user.UUID}`);
 
     this.curUserId = user.UUID;
     this.currentUserSrv.selectCurrentUserDoc({userId: user.UUID, userDoc});
   }
-  
+  isUserSelected(user: UserInterface): boolean {
+    return user.UUID === this.curUserId;
+  }
   userNameGet(user: UserInterface): string {
     if (user.therapist_msg.isEqual(user.user_msg)) {
       return user.name;
